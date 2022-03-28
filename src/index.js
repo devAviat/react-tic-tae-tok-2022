@@ -1,67 +1,63 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-function FormattedDate(props) {
-    return <h2>It is {props.date.toLocaleTimeString()}.</h2>;
-}
-
-class Clock extends React.Component {
+class LoginControl extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { date: new Date() };
-    }
-    //mount
-    componentDidMount() {
-        this.timerID = setInterval(() => this.tick(), 1000);
+        this.handleLoginClick = this.handleLoginClick.bind(this);
+        this.handleLogoutClick = this.handleLogoutClick.bind(this);
+        this.state = { isLoggedIn: false };
     }
 
-    componentWillUnmount() {
-        clearInterval(this.timerID);
+    handleLoginClick() {
+        this.setState({ isLoggedIn: true });
     }
 
-    tick() {
-        this.setState({
-            date: new Date(),
-        });
+    handleLogoutClick() {
+        this.setState({ isLoggedIn: false });
     }
 
     render() {
+        const isLoggedIn = this.state.isLoggedIn;
+        console.log(isLoggedIn);
+        let button;
+        if (isLoggedIn) {
+            button = <LogoutButton onClick={this.handleLogoutClick} />;
+        } else {
+            button = <LoginButton onClick={this.handleLoginClick} />;
+        }
         return (
             <div>
-                <h1>Hello, world!</h1>
-                <FormattedDate date={this.state.date} />
+                <Greeting isLoggedIn={isLoggedIn} />
+                {button}
             </div>
         );
     }
 }
 
-class LoggingButton extends React.Component {
-    handleClick() {
-        console.log('this is:', this);
-    }
-
-    render() {
-        // 이 문법은 `this`가 handleClick 내에서 바인딩되도록 합니다.
-        return <button onClick={() => this.handleClick()}>Click me</button>;
-    }
+function UserGreeting(props) {
+    return <h1>Welcome back!!</h1>;
 }
 
-function App() {
-    return (
-        <div>
-            <div>
-                <Clock />
-                <LoggingButton />
-            </div>
-        </div>
-    );
+function GuestGreeting(props) {
+    return <h1> Please sign up.</h1>;
 }
 
-class Toggle extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { isToggleOn: false };
+function Greeting(props) {
+    const isLogginedId = props.isLogginedId;
+
+    if (isLogginedId) {
+        return <UserGreeting />;
     }
+    return <GuestGreeting />;
 }
 
-ReactDOM.render(<App />, document.getElementById('root'));
+function LoginButton(props) {
+    return <button onClick={props.onClick}>Login!!</button>;
+}
+
+function LogoutButton(props) {
+    return <button onClick={props.onClick}>Logout</button>;
+}
+
+ReactDOM.render(<LoginControl />, document.getElementById('root'));
