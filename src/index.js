@@ -1,36 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-function WarningBanner(props) {
-    if (!props.warn) {
-        return null;
-    }
+const number = [1, 2, 3, 4, 5];
+const listItem = number.map((current) => <li>{current}</li>);
 
-    return <div clssName="warning">Warning!!</div>;
-}
-class Page extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { showWarning: true };
-        this.handleToggleClick = this.handleToggleClick.bind(this);
-    }
-
-    handleToggleClick = () => {
-        this.setState((state) => ({
-            showWarning: !state.showWarning,
-        }));
-    };
-
-    render() {
-        return (
-            <div>
-                <WarningBanner />
-                <button onClick={this.handleToggleClick}>
-                    {this.state.showWarning ? 'hide' : 'show'}
-                </button>
-            </div>
-        );
-    }
-}
-
-ReactDOM.render(<Page />, document.getElementById('root'));
+ReactDOM.render(<ul>{listItem}</ul>, document.getElementById('root'));
