@@ -1,63 +1,36 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-class LoginControl extends React.Component {
+function WarningBanner(props) {
+    if (!props.warn) {
+        return null;
+    }
+
+    return <div clssName="warning">Warning!!</div>;
+}
+class Page extends React.Component {
     constructor(props) {
         super(props);
-        this.handleLoginClick = this.handleLoginClick.bind(this);
-        this.handleLogoutClick = this.handleLogoutClick.bind(this);
-        this.state = { isLoggedIn: false };
+        this.state = { showWarning: true };
+        this.handleToggleClick = this.handleToggleClick.bind(this);
     }
 
-    handleLoginClick() {
-        this.setState({ isLoggedIn: true });
-    }
-
-    handleLogoutClick() {
-        this.setState({ isLoggedIn: false });
-    }
+    handleToggleClick = () => {
+        this.setState((state) => ({
+            showWarning: !state.showWarning,
+        }));
+    };
 
     render() {
-        const isLoggedIn = this.state.isLoggedIn;
-        console.log(isLoggedIn);
-        let button;
-        if (isLoggedIn) {
-            button = <LogoutButton onClick={this.handleLogoutClick} />;
-        } else {
-            button = <LoginButton onClick={this.handleLoginClick} />;
-        }
         return (
             <div>
-                <Greeting isLoggedIn={isLoggedIn} />
-                {button}
+                <WarningBanner />
+                <button onClick={this.handleToggleClick}>
+                    {this.state.showWarning ? 'hide' : 'show'}
+                </button>
             </div>
         );
     }
 }
 
-function UserGreeting(props) {
-    return <h1>Welcome back!!</h1>;
-}
-
-function GuestGreeting(props) {
-    return <h1> Please sign up.</h1>;
-}
-
-function Greeting(props) {
-    const isLogginedId = props.isLogginedId;
-
-    if (isLogginedId) {
-        return <UserGreeting />;
-    }
-    return <GuestGreeting />;
-}
-
-function LoginButton(props) {
-    return <button onClick={props.onClick}>Login!!</button>;
-}
-
-function LogoutButton(props) {
-    return <button onClick={props.onClick}>Logout</button>;
-}
-
-ReactDOM.render(<LoginControl />, document.getElementById('root'));
+ReactDOM.render(<Page />, document.getElementById('root'));
