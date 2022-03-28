@@ -1,7 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
-const number = [1, 2, 3, 4, 5];
-const listItem = number.map((current) => <li>{current}</li>);
-
-ReactDOM.render(<ul>{listItem}</ul>, document.getElementById('root'));
+function ListItem(props) {
+    return <li>{props.value}</li>;
+}
+function NumberList(props) {
+    const numbers = props.numbers;
+    return (
+        <ul>
+            {numbers.map((number) => (
+                <ListItem key={number.toString()} value={number} />
+            ))}
+        </ul>
+    );
+}
+ReactDOM.render(<NumberList />, document.getElementById('root'));
