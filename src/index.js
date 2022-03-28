@@ -35,14 +35,33 @@ class Clock extends React.Component {
     }
 }
 
+class LoggingButton extends React.Component {
+    handleClick() {
+        console.log('this is:', this);
+    }
+
+    render() {
+        // 이 문법은 `this`가 handleClick 내에서 바인딩되도록 합니다.
+        return <button onClick={() => this.handleClick()}>Click me</button>;
+    }
+}
+
 function App() {
     return (
         <div>
-            <Clock />
-            <Clock />
-            <Clock />
+            <div>
+                <Clock />
+                <LoggingButton />
+            </div>
         </div>
     );
+}
+
+class Toggle extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = { isToggleOn: false };
+    }
 }
 
 ReactDOM.render(<App />, document.getElementById('root'));
